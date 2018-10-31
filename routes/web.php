@@ -19,5 +19,8 @@ $router->group( [
 	'prefix' => 'api/v1',
 ], function () use ( $router ) {
 	$router->get( '/', 'ExampleController@index' );
+
+	$router->get( '/users', 'UserController@index' );
+
 	$router->post( '/users', 'UserController@create' );
 } );
