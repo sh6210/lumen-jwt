@@ -23,4 +23,6 @@ $router->group( [
 	$router->get( '/users', 'UserController@index' );
 
 	$router->post( '/users', 'UserController@create' );
+
+	$router->post('/login', 'Usercontroller@authenticate');
 } );

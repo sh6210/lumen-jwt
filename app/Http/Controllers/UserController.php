@@ -72,4 +72,41 @@ class UserController extends Controller {
 			], 400 );
 		}
 	}
+
+	public function authenticate( Request $request ) {
+
+		try {
+
+			$this->validate( $request, [
+				'email'    => 'required|email',
+				'password' => 'required|min:6'
+			] );
+
+//			return $request->all();
+
+		} catch ( ValidationException $e ) {
+
+			return response()->json( [
+				'success' => false,
+				'message' => $e->getMessage()
+			], 422 );
+		}
+
+		$token = app( 'auth' )->attempt( $request->only( [ 'email', 'password' ] ) );
+
+		if ( $token ) {
+			$result = [
+				'success' => true,
+				'message' => 'User authenticated',
+				'token' => $token
+			];
+		} else {
+			$result = [
+				'success' => false,
+				'message' => 'bad request'
+			];
+		}
+
+		return $result;
+	}
 }
